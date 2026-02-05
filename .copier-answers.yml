@@ -1,0 +1,39 @@
+# Changes here will be overwritten by Copier
+AddAllcontributors: false
+AddCitationCFF: false
+AddCodeOfConduct: false
+AddCompatHelperCI: true
+AddContributionDocs: false
+AddCopierCI: false
+AddDependabot: false
+AddDocs: true
+AddDocsCI: true
+AddFormatterAndLinterConfigFiles: true
+AddGitHubPRTemplate: true
+AddGitHubTemplates: false
+AddLintCI: true
+AddLychee: true
+AddMacToCI: false
+AddPrecommit: true
+AddTagBotCI: true
+AddTestCI: true
+AddWinToCI: false
+Authors: Hugo Solleder <hugo.solleder@epfl.ch>
+AutoIncludeTests: true
+CheckExplicitImports: false
+ConfigIndentation: 2
+JuliaIndentation: 4
+JuliaMinCIVersion: lts
+JuliaMinVersion: '1.10'
+License: GPL-3.0
+LicenseCopyrightHolders: Hugo Solleder
+MarkdownIndentation: 2
+PackageName: DataShieldOpal
+PackageOwner: obiba
+PackageUUID: c069a85d-6d2a-52a4-ad13-0e91be70ca39
+RunJuliaNightlyOnCI: false
+StrategyConfirmIncluded: true
+StrategyLevel: 1
+StrategyReviewExcluded: false
+UseCirrusCI: false
+_src_path: /Users/hugosolleder/.julia/packages/BestieTemplate/jdG8v

@@ -1,0 +1,7 @@
+name = "DataShieldOpal"
+uuid = "c069a85d-6d2a-52a4-ad13-0e91be70ca39"
+authors = ["Hugo Solleder <hugo.solleder@epfl.ch>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.10"
