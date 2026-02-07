@@ -1,6 +1,6 @@
 module DataShieldOpal
 
-using Opal: OpalObject
+using Opal: OpalObject, opal_login
 
 abstract type DSObject end
 
@@ -17,5 +17,6 @@ export Opal
 abstract type DSConnection <: DSObject end
 
 include("OpalConnection.jl")
+export dsConnect
 
 end
