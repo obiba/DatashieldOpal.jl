@@ -66,3 +66,88 @@ function dsConnect(
 
     return OpalConnection(name, opal)
 end
+
+"""
+    dsListTables(conn::OpalConnection)
+
+List Opal tables that may be accessible for performing DDataSHIELD operations.
+
+# Arguments
+- `conn`: An `OpalConnection` object.
+
+# Returns
+- The fully qualified names of the tables.
+
+# Example
+```julia
+conn = dsConnect(
+    Opal(),
+    "server1";
+    username="administrator",
+    password="password",
+    url="https://opal-demo.obiba.org",
+)
+dsListTables(conn)
+```
+"""
+function dsListTables(conn::OpalConnection)
+    o = conn.opal
+    tables = String[]
+    dslist = opal_get(o, "datasources")
+    if isnothing(dslist)
+        return tables
+    end
+    for ds in dslist
+        if haskey(ds, "name") && haskey(ds, "table") && !isnothing(ds["table"])
+            tbls = ds["table"]
+            if tbls isa String
+                tbls = [tbls]
+            end
+            for tbl in tbls
+                push!(tables, string(ds["name"], ".", tbl))
+            end
+        end
+    end
+    return tables
+end
+
+"""
+    dsHasTable(conn::OpalConnection, table::String)
+
+Verify Opal table exist and can be accessible for performing DataSHIELD operations.
+
+# Arguments
+- `conn`: An `OpalConnection` object.
+- `table`: The fully qualified name of the table.
+
+# Returns
+- `true` if table exists.
+
+# Example
+```julia
+conn = dsConnect(
+    Opal(),
+    "server1";
+    username="administrator",
+    password="password",
+    url="https://opal-demo.obiba.org",
+)
+dsHasTable(conn, "test.CNSIM")
+```
+"""
+function dsHasTable(conn::OpalConnection, table::String)
+    o = conn.opal
+    parts = split(table, ".")
+    if length(parts) < 2
+        return false
+    end
+    datasource = parts[1]
+    name = join(parts[2:end], ".")
+    try
+        opal_get(o, "datasource", datasource, "table", name)
+        # TODO: check if opal_get returns nothing
+        return true
+    catch
+        return false
+    end
+end
