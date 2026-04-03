@@ -7,7 +7,7 @@ Get available Datashield profiles
 - `opal`: An `OpalObject` instance.
 """
 function _datashield_profiles(opal::OpalObject)
-    if parse(VersionNumber, opal.version) < v"4.2"
+    if opal.version < v"4.2"
         return Dict{String,Any}("available" => "default", "current" => "default")
     else
         return Dict{String,Any}(
