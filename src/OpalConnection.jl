@@ -151,3 +151,80 @@ function dsHasTable(conn::OpalConnection, table::String)
         return false
     end
 end
+
+"""
+    dsListResources(conn::OpalConnection)
+
+List Opal resources that may be accessible for performing DataSHIELD operations.
+
+# Arguments
+- `conn`: An `OpalConnection` object.
+
+# Returns
+- The fully qualified names of the resources.
+
+# Example
+```julia
+conn = dsConnect(
+    Opal(),
+    "server1";
+    username="administrator",
+    password="password",
+    url="https://opal-demo.obiba.org",
+)
+dsListResources(conn)
+```
+"""
+function dsListResources(conn::OpalConnection)
+    o = conn.opal
+    resources = String[]
+    for proj in opal_get(o, "projects")
+        for res in opal_resources(o, proj["name"]; df=false)
+            push!(resources, proj["name"] * "." * res["name"])
+        end
+    end
+    if isempty(resources)
+        return String[]
+    end
+    return resources
+end
+
+"""
+    dsHasResource(conn::OpalConnection, resource::String)
+
+Verify Opal resource exist and can be accessible for performing DataSHIELD operations.
+
+# Arguments
+- `conn`: An `OpalConnection` object.
+- `resource`: The fully qualified name of the resource.
+
+# Returns
+- `true` if resource exists.
+
+# Example
+```julia
+conn = dsConnect(
+    Opal(),
+    "server1";
+    username="administrator",
+    password="password",
+    url="https://opal-demo.obiba.org",
+)
+dsHasResource(conn, "test.CNSIM")
+```
+"""
+function dsHasResource(conn::OpalConnection, resource::String)
+    o = conn.opal
+    parts = split(resource, ".")
+    if length(parts) < 2
+        return false
+    end
+    project = parts[1]
+    name = join(parts[2:end], ".")
+    try
+        opal_resource(o, project, name)
+        return true
+    catch
+        return false
+    end
+end
